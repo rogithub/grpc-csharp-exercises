@@ -8,8 +8,6 @@ builder.Services.AddGrpc();
 
 var app = builder.Build();
 
-app.UseEndpoints(endpoints => endpoints.MapGrpcService<GreetingsManagerService>());
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -23,8 +21,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints => endpoints.MapGrpcService<GreetingsManagerService>());
+
+
 
 app.MapRazorPages();
 
