@@ -1,9 +1,15 @@
+using BasicGrpcService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddGrpc();
 
 var app = builder.Build();
+
+app.UseEndpoints(endpoints => endpoints.MapGrpcService<GreetingsManagerService>());
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
