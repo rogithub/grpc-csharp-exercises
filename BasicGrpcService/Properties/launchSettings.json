@@ -15,9 +15,7 @@
                 "launchBrowser": false,
                 "applicationUrl": "http://localhost:5000;https://localhost:5001",
                 "environmentVariables": {
-                    "ASPNETCORE_ENVIRONMENT": "Development",
-                    "ASPNETCORE_Kestrel__Certificates__Default__Password": "gordopechocho",
-                    "ASPNETCORE_Kestrel__Certificates__Default__Path": "${HOME}/.aspnet/https"
+                    "ASPNETCORE_ENVIRONMENT": "Development"
                 }
             }
         },
