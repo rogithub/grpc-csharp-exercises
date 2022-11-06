@@ -1,7 +1,7 @@
-﻿using Grpc.Net.Client;
+﻿
+using Grpc.Net.Client;
 
 // See https://aka.ms/new-console-template for more information
-
 
 
 // The port number(5001) must match the port of

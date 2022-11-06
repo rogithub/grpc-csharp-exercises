@@ -20,4 +20,9 @@
     <Protobuf Include="Protos\greeter.proto" GrpcServices="Client" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="BasicGrpcClient" />
+  </ItemGroup>
+
+
 </Project>
