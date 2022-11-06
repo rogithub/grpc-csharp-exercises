@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-      <Protobuf Include="Protos\greeter.proto" GrpcServices="Server" />
+    <ProjectReference Include="..\GrpcDependencies\GrpcDependencies.csproj" />
   </ItemGroup>
 </Project>

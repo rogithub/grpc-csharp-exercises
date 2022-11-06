@@ -1,5 +1,6 @@
 ﻿
 using Grpc.Net.Client;
+using Greeter;
 
 // See https://aka.ms/new-console-template for more information
 

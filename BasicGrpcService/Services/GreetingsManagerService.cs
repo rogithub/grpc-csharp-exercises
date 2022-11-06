@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Grpc.Core;
+using Greeter;
 namespace BasicGrpcService
 {
     public class GreetingsManagerService :

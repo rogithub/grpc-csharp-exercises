@@ -1,5 +1,4 @@
 syntax = "proto3";
-option csharp_namespace = "BasicGrpcService";
 
 package greeter;
 // The greetings manager service definition.
