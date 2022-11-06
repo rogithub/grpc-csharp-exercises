@@ -3,10 +3,14 @@ using Grpc.Net.Client;
 
 // See https://aka.ms/new-console-template for more information
 
+// BEGIN WARNING! Do not use this in Prod.
+// **************************************
 var httpHandler = new HttpClientHandler();
 // Return `true` to allow certificates that are untrusted/invalid
 httpHandler.ServerCertificateCustomValidationCallback =
     HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+// END WARNING! Do not use this in Prod.
+// **************************************
 
 // The port number(5001) must match the port of
 // the gRPC server.
