@@ -6,3 +6,5 @@ SSL_CERT_PWD="gordopechocho"
 
 dotnet dev-certs https -ep ${HOME}/.aspnet/https/aspnetapp.pfx -p <CREDENTIAL_PLACEHOLDER>
 dotnet dev-certs https --trust
+
+
