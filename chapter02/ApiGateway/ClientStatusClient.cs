@@ -18,9 +18,21 @@ internal class GrpcStatusClient : IGrpcStatusClient, IDisposable
 {
     private readonly GrpcChannel channel;
     private readonly StatusManager.StatusManagerClient client;
+
     public GrpcStatusClient(string serverUrl)
-    {
-        channel = GrpcChannel.ForAddress(serverUrl);
+    {                
+        // BEGIN WARNING! Do not use this in Prod.
+        // **************************************
+        var httpHandler = new HttpClientHandler();
+        // Return `true` to allow certificates that are untrusted/invalid
+        httpHandler.ServerCertificateCustomValidationCallback =
+        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+        // END WARNING! Do not use this in Prod.
+        // **************************************
+
+        channel = GrpcChannel.ForAddress(serverUrl,
+        new GrpcChannelOptions { HttpHandler = httpHandler });
+
         client = new StatusManager.StatusManagerClient(channel);
     }
 
