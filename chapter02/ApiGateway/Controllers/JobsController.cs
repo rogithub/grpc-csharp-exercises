@@ -24,12 +24,12 @@ public class JobsController : ControllerBase
     [HttpPost("")]
     public void SendJobs([FromBody] IEnumerable<JobModel> jobs)
     {
-        _ = client.SendJobs(jobs);
+        _ = _client.SendJobs(jobs);
     }
 
     [HttpPost("{jobsCount}")]
     public void TriggerJobs(int jobsCount)
     {
-        _ = client.TriggerJobs(jobsCount);
+        _ = _client.TriggerJobs(jobsCount);
     }
 }
