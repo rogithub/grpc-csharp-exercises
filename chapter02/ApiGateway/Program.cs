@@ -12,6 +12,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IGrpcStatusClient>(p => new GrpcStatusClient(builder.Configuration.GetSection("ServerUrl").Value));
 
+// Register the Swagger services
+builder.Services.AddSwaggerDocument();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
