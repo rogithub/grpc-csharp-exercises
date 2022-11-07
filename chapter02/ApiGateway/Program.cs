@@ -10,7 +10,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddSingleton<IGrpcStatusClient>(p => new GrpcStatusClient(builder.Configuration.GetSection("ServerUrl").Value));
+var serverUrl = builder.Configuration.GetSection("ServerUrl").Value;
+builder.Services.AddSingleton<IGrpcStatusClient>(p => new GrpcStatusClient(serverUrl));
+builder.Services.AddSingleton<IGrpcJobsClient>(p => new GrpcJobsClient(serverUrl));
 
 // Register the Swagger services
 builder.Services.AddSwaggerDocument();
