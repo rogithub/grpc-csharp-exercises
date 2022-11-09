@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "IndependentProtobuf": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5064;https://localhost:7063",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
