@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceService", "Perfo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcDependencies", "GrpcDependencies\GrpcDependencies.csproj", "{234755F2-9A61-4390-8D8B-BCA70151D17C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{2D067503-337D-4407-9BBA-732885D65282}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{234755F2-9A61-4390-8D8B-BCA70151D17C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{234755F2-9A61-4390-8D8B-BCA70151D17C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{234755F2-9A61-4390-8D8B-BCA70151D17C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D067503-337D-4407-9BBA-732885D65282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D067503-337D-4407-9BBA-732885D65282}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D067503-337D-4407-9BBA-732885D65282}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D067503-337D-4407-9BBA-732885D65282}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
