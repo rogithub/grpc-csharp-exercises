@@ -22,6 +22,22 @@ public class GreeterService : Greeter.GreeterBase
         message.NestedMessageField.StringCollection.Add("entry 1");
         message.NestedMessageField.StringCollection.Add(new List<string> { "entry 2", "entry 3" });
 
+
+        message.NestedMessageField.StringToStringMap.Add("entry 1", "value 1");
+        message.NestedMessageField.StringToStringMap.Add(new
+        Dictionary<string, string>
+        {
+            { "entry 2", "value 2" },
+            { "entry 3", "value 3" }
+        });
+
+        message.NestedMessageField.StringToStringMap["entry 4"] = "value 4";
+
+        message.BasicTypesField = new BasicTypes
+        {
+            IntField = 1
+        };
+        
         return Task.FromResult(message);
 
     }
