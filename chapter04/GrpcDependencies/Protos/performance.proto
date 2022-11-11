@@ -3,7 +3,11 @@ package performance;
 
 service Monitor {
     rpc GetPerformance (PerformanceStatusRequest) returns (PerformanceStatusResponse);
+
+    rpc GetManyPerformanceStats (stream PerformanceStatusRequest) returns (stream PerformanceStatusResponse);
 }
+
+
 
 message PerformanceStatusRequest {
     string client_name = 1;

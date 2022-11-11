@@ -4,6 +4,7 @@ using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Performance;
+using System.Collections.Generic;
 
 using MonitorClient = Performance.Monitor.MonitorClient;
 
@@ -94,6 +95,25 @@ public class PerformanceController : ControllerBase
         }
         
         response.RequestProcessingTime = stopWatch.ElapsedMilliseconds;
+        return response;
+    }
+
+
+    [HttpGet("streaming-call/{count}")]
+    public async Task<ResponseModel> GetPerformanceFromStreamingCall(int count)
+    {
+        var stopWatch = Stopwatch.StartNew();
+        var response = new ResponseModel();
+        var clientNames = new List<string>();
+        
+        for (var i = 0; i < count; i++)
+        {
+            clientNames.Add($"client {i + 1}");
+        }
+        
+        response.PerformanceStatuses.AddRange(await clientWrapper.GetPerformanceStatuses(clientNames));
+        response.RequestProcessingTime = stopWatch.ElapsedMilliseconds;
+
         return response;
     }
 }
