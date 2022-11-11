@@ -49,7 +49,10 @@ public class ConcurrencyController : ControllerBase
     [HttpGet("multiple-connections/{count}")]
     public ResponseModel GetDataFromMultipleConnections(int count)
     {                
-        var httpHandler = GrpcPerformanceClient.BuildInsecureHandler();        
+        var httpHandler = GrpcPerformanceClient.BuildInsecureHandler();      
+        httpHandler.PooledConnectionIdleTimeout = System.Threading.Timeout.InfiniteTimeSpan;
+        httpHandler.KeepAlivePingDelay = TimeSpan.FromSeconds(60);
+        httpHandler.KeepAlivePingTimeout = TimeSpan.FromSeconds(30);
         httpHandler.EnableMultipleHttp2Connections = true; // <---- Allow client to open connections as needed
         using var channel = GrpcChannel.ForAddress(serverUrl, new GrpcChannelOptions 
         {
