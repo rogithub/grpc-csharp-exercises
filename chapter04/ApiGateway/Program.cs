@@ -26,6 +26,17 @@ builder.Services.AddSingleton<IGrpcPerformanceClient>(p => new
 builder.Services.AddGrpcClient<MonitorClient>(o =>
 {
     o.Address = new Uri(serverUrl);
+}).ConfigurePrimaryHttpMessageHandler(() =>
+{
+    // BEGIN WARNING! Do not use this in Prod.
+    // **************************************
+    var httpHandler = new HttpClientHandler();
+    // Return `true` to allow certificates that are untrusted/invalid
+    httpHandler.ServerCertificateCustomValidationCallback =
+        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+    // END WARNING! Do not use this in Prod.
+    // **************************************
+    return httpHandler;
 });
 
 var app = builder.Build();
