@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Grpc.Net.Client;
 using Performance;
 using MonitorClient = Performance.Monitor.MonitorClient;
+using System.Net.Security;
 
 namespace ApiGateway;
 
@@ -35,6 +36,26 @@ internal class GrpcPerformanceClient: IGrpcPerformanceClient, IDisposable
 
         return GrpcChannel.ForAddress(serverUrl,
         new GrpcChannelOptions { HttpHandler = httpHandler });
+    }
+
+    public static SocketsHttpHandler BuildInsecureHandler()
+    {
+        // BEGIN WARNING! Do not use this in Prod.
+        // **************************************
+        var sslOptions = new SslClientAuthenticationOptions
+        {
+            // Leave certs unvalidated for debugging
+            RemoteCertificateValidationCallback = delegate { return true; },
+        };
+
+        var httpHandler = new SocketsHttpHandler()
+        {
+            SslOptions = sslOptions,
+        };
+        // END WARNING! Do not use this in Prod.
+        // **************************************
+
+        return httpHandler;
     }
 
     public async Task<ResponseModel.PerformanceStatusModel> GetPerformanceStatus(string clientName)
