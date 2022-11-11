@@ -6,6 +6,7 @@ using MonitorClient = Performance.Monitor.MonitorClient;
 using System.Net.Security;
 using System.Collections.Generic;
 using Grpc.Core;
+using System.Runtime.InteropServices;
 
 namespace ApiGateway;
 
@@ -60,6 +61,21 @@ internal class GrpcPerformanceClient: IGrpcPerformanceClient, IDisposable
         return httpHandler;
     }
 
+    private ResponseModel.PerformanceStatusModel ReadResponse(PerformanceStatusResponse response)
+    {
+        return new ResponseModel.PerformanceStatusModel
+        {
+            CpuPercentageUsage = response.CpuPercentageUsage,
+            MemoryUsage = response.MemoryUsage,
+            ProcessesRunning = response.ProcessesRunning,
+            ActiveConnections = response.ActiveConnections,
+            DataLoad1 = response.DataLoad1.ToByteArray(),
+            DataLoad2 = MemoryMarshal.TryGetArray(response.DataLoad2.Memory, out var segment) ? 
+                segment.Array : 
+                response.DataLoad2.Memory.ToArray()
+        };
+    }
+
     public async Task<ResponseModel.PerformanceStatusModel> GetPerformanceStatus(string clientName)
     {
         var client = new MonitorClient(channel);
@@ -68,13 +84,7 @@ internal class GrpcPerformanceClient: IGrpcPerformanceClient, IDisposable
             ClientName = clientName
         });
 
-        return new ResponseModel.PerformanceStatusModel
-        {
-            CpuPercentageUsage = response.CpuPercentageUsage,
-            MemoryUsage = response.MemoryUsage,
-            ProcessesRunning = response.ProcessesRunning,
-            ActiveConnections = response.ActiveConnections
-        };
+        return ReadResponse(response);
     }
 
     public async Task<IEnumerable<ResponseModel.PerformanceStatusModel>> GetPerformanceStatuses(IEnumerable<string> clientNames)
@@ -87,13 +97,7 @@ internal class GrpcPerformanceClient: IGrpcPerformanceClient, IDisposable
         {
             await foreach (var response in call.ResponseStream.ReadAllAsync())
             {
-                responses.Add(new ResponseModel.PerformanceStatusModel
-                {
-                    CpuPercentageUsage = response.CpuPercentageUsage,
-                    MemoryUsage = response.MemoryUsage,
-                    ProcessesRunning = response.ProcessesRunning,
-                    ActiveConnections = response.ActiveConnections
-                });
+                responses.Add(ReadResponse(response));
             }
         });
 

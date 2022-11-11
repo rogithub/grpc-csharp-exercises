@@ -18,4 +18,7 @@ message PerformanceStatusResponse {
     double memory_usage = 2;
     int32 processes_running = 3;
     int32 active_connections = 4;
+
+    bytes data_load_1 = 5;
+    bytes data_load_2 = 6;
 }

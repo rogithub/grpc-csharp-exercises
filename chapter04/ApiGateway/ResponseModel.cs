@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+
+
 namespace ApiGateway;
 
-
 public class ResponseModel
-{
+{    
     public List<PerformanceStatusModel> PerformanceStatuses { get; } = new();
     public double RequestProcessingTime { get; set; }
     public class PerformanceStatusModel
@@ -12,5 +13,9 @@ public class ResponseModel
         public double MemoryUsage { get; set; }
         public int ProcessesRunning { get; set; }
         public int ActiveConnections { get; set; }  
+
+        public byte[] DataLoad1 { get; set; }
+        public byte[] DataLoad2 { get; set; }
     }
+    
 }
