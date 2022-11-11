@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using Performance;
 
-namespace PerformanceService;
-public class PerformanceMonitor : Monitor.MonitorBase
+namespace PerformanceService.Services;
+public class PerformanceMonitor : Performance.Monitor.MonitorBase
 {
     public override Task<PerformanceStatusResponse> GetPerformance(PerformanceStatusRequest request, ServerCallContext context)
     {
