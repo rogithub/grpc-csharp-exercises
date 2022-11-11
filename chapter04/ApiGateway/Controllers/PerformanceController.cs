@@ -80,7 +80,7 @@ public class PerformanceController : ControllerBase
         
         for (var i = 0; i < count; i++)
         {
-            using var channel = GrpcChannel.ForAddress(serverUrl);
+            using var channel = GrpcPerformanceClient.BuildInsecureChannel(serverUrl);
             var client = new MonitorClient(channel);
             var grpcResponse = await client.GetPerformanceAsync(new PerformanceStatusRequest { ClientName = $"client {i + 1}" });
             response.PerformanceStatuses.Add(new ResponseModel.PerformanceStatusModel

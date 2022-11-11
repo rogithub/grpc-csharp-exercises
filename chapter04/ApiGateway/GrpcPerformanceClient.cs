@@ -19,6 +19,11 @@ internal class GrpcPerformanceClient: IGrpcPerformanceClient, IDisposable
     public GrpcPerformanceClient(string serverUrl)
     {
         
+        this.channel = BuildInsecureChannel(serverUrl);
+    }
+
+    public static Grpc.Net.Client.GrpcChannel BuildInsecureChannel(string serverUrl)
+    {
         // BEGIN WARNING! Do not use this in Prod.
         // **************************************
         var httpHandler = new HttpClientHandler();
@@ -28,7 +33,7 @@ internal class GrpcPerformanceClient: IGrpcPerformanceClient, IDisposable
         // END WARNING! Do not use this in Prod.
         // **************************************
 
-        channel = GrpcChannel.ForAddress(serverUrl,
+        return GrpcChannel.ForAddress(serverUrl,
         new GrpcChannelOptions { HttpHandler = httpHandler });
     }
 
