@@ -1,5 +1,5 @@
 syntax = "proto3";
-package stats;
+package stats.v2;
 
 service Status {
   rpc GetStatus (StatusRequest) returns (StatusResponse);
@@ -18,7 +18,8 @@ message StatusResponse {
   int32 number_of_connections = 3;
   double cpu_usage = 4;
   double memory_usage = 5;
-  uint64 errors_logged = 6;
+  //uint64 errors_logged = 6;
   uint32 catastrophic_failures_logged = 7;
-  bool active = 8;
+  //bool active = 8;
+  bool busy = 9;
 }

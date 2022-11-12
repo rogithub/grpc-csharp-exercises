@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using Grpc.Core;
-using Stats;
+using Stats.V2;
 namespace GrpcServer;
 
-public class StatusService : Stats.Status.StatusBase
+public class StatusServiceV2 : Stats.V2.Status.StatusBase
 {
     public override Task<StatusResponse> GetStatus(StatusRequest request, ServerCallContext context)
     {
@@ -21,9 +21,9 @@ public class StatusService : Stats.Status.StatusBase
             NumberOfConnections = randomNumberGenerator.Next(),
             CpuUsage = randomNumberGenerator.NextDouble() * 100,
             MemoryUsage = randomNumberGenerator.NextDouble() * 100,
-            ErrorsLogged = (ulong)randomNumberGenerator.Next(),
+            //ErrorsLogged = (ulong)randomNumberGenerator.Next(),
             CatastrophicFailuresLogged = (uint)randomNumberGenerator.Next(),
-            Active = true
+            Busy = true
         });
     }
 }

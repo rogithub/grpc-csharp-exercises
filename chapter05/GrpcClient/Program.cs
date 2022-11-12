@@ -21,18 +21,17 @@ using var channel =
     GrpcChannel.ForAddress(serverUrl,
     new GrpcChannelOptions { HttpHandler = httpHandler });
 
-var client = new Stats.Status.StatusClient(channel);
+var client = new Stats.V1.Status.StatusClient(channel);
 Console.WriteLine("Please enter client name:");
 var clientName = Console.ReadLine();
 Console.WriteLine("Please enter client description:");
 var clientDescription = Console.ReadLine();
 
-var response = await client.GetStatusAsync(new Stats.StatusRequest
+var response = await client.GetStatusAsync(new Stats.V1.StatusRequest
 {
     ClientName = clientName,
     ClientDescription = clientDescription,
-    Ready = true,
-    Authorized = true
+    Allowed = true
 });
 
 Console.WriteLine($"Server name: {response.ServerName}");
