@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcServerCommon", "GrpcSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcServer1", "GrpcServer1\GrpcServer1.csproj", "{FB200EC8-7296-4FCC-AA5B-469D88226D73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{1E36E817-186C-4A56-BD2A-27FE0662C2F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{FB200EC8-7296-4FCC-AA5B-469D88226D73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB200EC8-7296-4FCC-AA5B-469D88226D73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB200EC8-7296-4FCC-AA5B-469D88226D73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E36E817-186C-4A56-BD2A-27FE0662C2F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E36E817-186C-4A56-BD2A-27FE0662C2F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E36E817-186C-4A56-BD2A-27FE0662C2F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E36E817-186C-4A56-BD2A-27FE0662C2F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
