@@ -1,3 +1,4 @@
+using ApiGateway;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +7,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+var addresses = builder.Configuration.GetSection("ServerAddresses").Get<List<string>>();
+builder.Services.AddSingleton<IGrpcClientWrapper>(new GrpcClientWrapper(addresses));
+
 
 var app = builder.Build();
 

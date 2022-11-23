@@ -13,8 +13,7 @@ public class DataController : ControllerBase
     private readonly IGrpcClientWrapper clientWrapper;
     private readonly ILogger<DataController> _logger;
 
-    public WeatherForecastController(ILogger<DataController> logger,
-        IGrpcClientWrapper clientWrapper)
+    public DataController(ILogger<DataController> logger, IGrpcClientWrapper clientWrapper)
     {
         _logger = logger;
         this.clientWrapper = clientWrapper;

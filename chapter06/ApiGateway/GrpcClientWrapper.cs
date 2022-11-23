@@ -18,11 +18,22 @@ internal class GrpcClientWrapper : IGrpcClientWrapper, IDisposable
     private readonly List<GrpcChannel> roundRobinChannels;
     public GrpcClientWrapper(List<string> addresses)
     {
+        
+// BEGIN WARNING! Do not use this in Prod.
+// **************************************
+var httpHandler = new HttpClientHandler();
+// Return `true` to allow certificates that are untrusted/invalid
+httpHandler.ServerCertificateCustomValidationCallback =
+    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+var opts = new GrpcChannelOptions { HttpHandler = httpHandler };
+// END WARNING! Do not use this in Prod.
+// **************************************
+
         roundRobinChannels = new List<GrpcChannel>();
-        standardChannel = GrpcChannel.ForAddress(addresses[0]);
+        standardChannel = GrpcChannel.ForAddress(addresses[0], opts);
         foreach (var address in addresses)
         {
-            roundRobinChannels.Add(GrpcChannel.ForAddress(address));
+            roundRobinChannels.Add(GrpcChannel.ForAddress(address, opts));
         }
     }
 
