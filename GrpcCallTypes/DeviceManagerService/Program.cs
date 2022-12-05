@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using DeviceManagerService.Services;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Additional configuration is required to successfully run gRPC on macOS.

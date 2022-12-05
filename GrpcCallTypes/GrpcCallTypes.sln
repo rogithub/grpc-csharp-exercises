@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcDependencies", "GrpcDep
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceManagerService", "DeviceManagerService\DeviceManagerService.csproj", "{BD3A4EF7-37B8-4766-A293-60DF64EE713A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{AFBE0DE5-09B9-471F-8599-201BF17D2AED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{BD3A4EF7-37B8-4766-A293-60DF64EE713A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD3A4EF7-37B8-4766-A293-60DF64EE713A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD3A4EF7-37B8-4766-A293-60DF64EE713A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFBE0DE5-09B9-471F-8599-201BF17D2AED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFBE0DE5-09B9-471F-8599-201BF17D2AED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFBE0DE5-09B9-471F-8599-201BF17D2AED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFBE0DE5-09B9-471F-8599-201BF17D2AED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
