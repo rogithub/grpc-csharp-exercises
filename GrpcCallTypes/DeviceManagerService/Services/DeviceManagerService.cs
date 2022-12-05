@@ -1,5 +1,4 @@
 using Grpc.Core;
-using DeviceManagerService;
 
 namespace DeviceManagerService.Services;
 

@@ -1,10 +1,6 @@
 using Grpc.Core;
-using DeviceManagerService;
-
 
 namespace DeviceManagerService.Services;
-
-
 public class ManagerServiceNoPackage : DeviceManager.DeviceManagerBase
 {
     public override Task<UpsertDeviceResponse> UpsertDeviceStatus
