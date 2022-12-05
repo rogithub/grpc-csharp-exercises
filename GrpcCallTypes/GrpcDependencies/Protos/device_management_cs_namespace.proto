@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "device_management";
+option csharp_namespace = "GrpcDependencies.Protos";
 
 
 service DeviceManager {

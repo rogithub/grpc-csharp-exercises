@@ -1,5 +1,6 @@
 using Grpc.Core;
 
+
 namespace DeviceManagerService.Services;
 
 
@@ -13,6 +14,6 @@ public class ManagerServiceCsNamespace : GrpcDependencies.Protos.DeviceManager.D
         return Task.FromResult(new GrpcDependencies.Protos.UpsertDeviceResponse
         {
             Success = true
-        });
+        });        
     }
 }
