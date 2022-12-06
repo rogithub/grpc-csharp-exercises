@@ -7,21 +7,30 @@ namespace ApiGateway.Controllers;
 public class DevicesController : ControllerBase
 {
     private readonly ILogger<DevicesController> _logger;
+    private readonly IGrpcClientWrapper clientWrapper;
 
-    public DevicesController(ILogger<DevicesController> logger)
+    public DevicesController(ILogger<DevicesController> logger,
+        IGrpcClientWrapper clientWrapper)
     {
         _logger = logger;
+        this.clientWrapper = clientWrapper;
     }
 
-    [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
+    [HttpGet("{clientType}/{deviceId}")]
+    public DeviceDetails GetDevice(ClientType clientType, int deviceId)
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = DateTime.Now.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        })
-        .ToArray();
+        return clientWrapper.GetDevice(clientType, deviceId);
     }
+
+    [HttpPost("{clientType}")]
+    public async Task PostDeviceStatus(ClientType clientType, 
+        [FromBody] DeviceDetails deviceDetails, 
+        [FromQuery] bool  async = false)
+    {
+        if (async)
+            await clientWrapper.UpsertDeviceStatusAsync(clientType, deviceDetails);
+        else
+            clientWrapper.UpsertDeviceStatus(clientType, deviceDetails);
+    }
+    
 }
