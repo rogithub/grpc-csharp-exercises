@@ -32,5 +32,12 @@ public class DevicesController : ControllerBase
         else
             clientWrapper.UpsertDeviceStatus(clientType, deviceDetails);
     }
+
+
+    [HttpPost("")]
+    public async Task PostDeviceStatuses([FromBody]IEnumerable<DeviceDetails> deviceDetails)
+    {
+        await clientWrapper.UpsertDeviceStatusesAsync(deviceDetails);
+    }
     
 }

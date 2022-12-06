@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace ApiGateway;
 
@@ -11,6 +12,8 @@ public interface IGrpcClientWrapper
     DeviceDetails GetDevice(ClientType clientType, int deviceId);
     bool UpsertDeviceStatus(ClientType clientType, DeviceDetails details);
     Task<bool> UpsertDeviceStatusAsync(ClientType clientType, DeviceDetails details);
+
+    Task<bool> UpsertDeviceStatusesAsync(IEnumerable<DeviceDetails> devices);
 }
 
 internal class GrpcClientWrapper : IGrpcClientWrapper, IDisposable
@@ -142,4 +145,26 @@ internal class GrpcClientWrapper : IGrpcClientWrapper, IDisposable
             Status = status
         };
     }
+
+    public async Task<bool> UpsertDeviceStatusesAsync(IEnumerable<DeviceDetails> devices)
+    {
+        var client = new DeviceManagement.DeviceManager.DeviceManagerClient(channel);
+        using var call = client.UpsertDeviceStatuses();
+
+        foreach (var device in devices)
+        {
+            await call.RequestStream.WriteAsync(new DeviceManagement.DeviceDetails {
+                DeviceId = device.Id,
+                Name = device.Name,
+                Description = device.Description,
+                Status = (DeviceManagement.DeviceStatus)device.Status
+            });
+        }
+        
+        await call.RequestStream.CompleteAsync();
+        var response = await call;
+
+        return response.Success;
+    }
+    
 }

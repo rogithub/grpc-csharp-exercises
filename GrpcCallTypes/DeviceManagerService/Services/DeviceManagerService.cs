@@ -15,4 +15,18 @@ public class ManagerService : DeviceManagement.DeviceManager.DeviceManagerBase
             Success = true
         });
     }
+
+    public override async Task<DeviceManagement.UpsertDeviceResponse> UpsertDeviceStatuses
+        (IAsyncStreamReader<DeviceManagement.DeviceDetails> requestStream, ServerCallContext context)
+    {
+        await foreach (var status in requestStream.ReadAllAsync())
+        {
+            Console.WriteLine
+                ($"Device id: {status.DeviceId},Name: {status.Name}, Description: {status.Description}, Status {status.Status}.");
+        }
+        return new DeviceManagement.UpsertDeviceResponse
+        {
+            Success = true
+        };
+    }
 }

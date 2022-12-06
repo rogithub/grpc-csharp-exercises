@@ -5,6 +5,7 @@ package device_management;
 service DeviceManager {
     rpc UpsertDeviceStatus (DeviceDetails) returns (UpsertDeviceResponse);
     rpc GetDevice (GetDeviceRequest) returns (DeviceDetails);
+    rpc UpsertDeviceStatuses (stream DeviceDetails) returns (UpsertDeviceResponse);
 }
 
 message DeviceDetails {
