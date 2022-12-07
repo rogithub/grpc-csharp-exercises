@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using DeviceManagerService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.MapGrpcService<ManagerService>();
 app.MapGrpcService<ManagerServiceCsNamespace>();
+builder.Services.AddSingleton<IDeviceStatusCache,DeviceStatusCache>();
 //app.MapGrpcService<ManagerServiceNoPackage>();
 
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");

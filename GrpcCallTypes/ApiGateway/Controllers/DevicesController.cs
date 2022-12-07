@@ -39,5 +39,11 @@ public class DevicesController : ControllerBase
     {
         await clientWrapper.UpsertDeviceStatusesAsync(deviceDetails);
     }
+
+    [HttpGet("")]
+    public async Task<IEnumerable<DeviceDetails>> GetAllDevices([FromQuery] int deadlineSeconds = 0)
+    {
+        return await clientWrapper.GetAllDevices(deadlineSeconds);
+    }
     
 }

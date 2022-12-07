@@ -1,11 +1,13 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
 package device_management;
 
 service DeviceManager {
     rpc UpsertDeviceStatus (DeviceDetails) returns (UpsertDeviceResponse);
     rpc GetDevice (GetDeviceRequest) returns (DeviceDetails);
     rpc UpsertDeviceStatuses (stream DeviceDetails) returns (UpsertDeviceResponse);
+    rpc GetAllStatuses (google.protobuf.Empty) returns (stream DeviceDetails);
 }
 
 message DeviceDetails {
