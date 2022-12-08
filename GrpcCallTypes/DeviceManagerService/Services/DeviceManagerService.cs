@@ -51,4 +51,22 @@ public class ManagerService : DeviceManagement.DeviceManager.DeviceManagerBase
             await Task.Delay(500);
         }
     }
+
+
+    public override async Task UpdateAndConfirmBatch(
+        IAsyncStreamReader<DeviceManagement.DeviceDetails> requestStream, 
+        IServerStreamWriter<DeviceManagement.DeviceDetails> responseStream, ServerCallContext context)
+    {
+        await foreach (var device in requestStream.ReadAllAsync())
+        {
+            deviceStatusCache.UpsertDeviceDetail(device);
+            var newDevice = deviceStatusCache.GetDevice(device.DeviceId);
+            
+            if (newDevice is not null)
+                await responseStream.WriteAsync(newDevice);
+
+            await Task.Delay(500);
+        }
+    }
+
 }

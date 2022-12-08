@@ -8,6 +8,8 @@ service DeviceManager {
     rpc GetDevice (GetDeviceRequest) returns (DeviceDetails);
     rpc UpsertDeviceStatuses (stream DeviceDetails) returns (UpsertDeviceResponse);
     rpc GetAllStatuses (google.protobuf.Empty) returns (stream DeviceDetails);
+
+    rpc UpdateAndConfirmBatch (stream DeviceDetails) returns (stream DeviceDetails);
 }
 
 message DeviceDetails {

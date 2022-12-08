@@ -45,5 +45,12 @@ public class DevicesController : ControllerBase
     {
         return await clientWrapper.GetAllDevices(deadlineSeconds);
     }
-    
+
+    [HttpPost("batch")]
+    public async Task<IEnumerable<DeviceDetails>> PostDeviceStatusBatch(
+        [FromBody] IEnumerable<DeviceDetails> deviceDetails,
+        [FromQuery] int deadlineSeconds = 0)
+    {
+        return await clientWrapper.UpdateAndConfirmBatch(deviceDetails, deadlineSeconds);
+    }    
 }

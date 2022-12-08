@@ -15,6 +15,8 @@ public interface IGrpcClientWrapper
     Task<bool> UpsertDeviceStatusAsync(ClientType clientType, DeviceDetails details);
     Task<bool> UpsertDeviceStatusesAsync(IEnumerable<DeviceDetails> devices);
     Task<IEnumerable<DeviceDetails>> GetAllDevices(int deadlineSeconds = 0);
+
+    Task<IEnumerable<DeviceDetails>> UpdateAndConfirmBatch(IEnumerable<DeviceDetails> devices, int deadlineSeconds = 0);
 }
 
 internal class GrpcClientWrapper : IGrpcClientWrapper, IDisposable
@@ -184,5 +186,39 @@ internal class GrpcClientWrapper : IGrpcClientWrapper, IDisposable
                 device.Description, (DeviceStatus)device.Status));
         }
         return devices;
+    }
+
+    public async Task<IEnumerable<DeviceDetails>> UpdateAndConfirmBatch(IEnumerable<DeviceDetails> devices, int deadlineSeconds = 0)
+    {
+        var client = new DeviceManagement.DeviceManager.DeviceManagerClient(channel);
+        DateTime? deadline = deadlineSeconds > 0 ? DateTime.UtcNow.AddSeconds(deadlineSeconds) : null;
+        var call = client.UpdateAndConfirmBatch(deadline: deadline);
+
+        var outputDevices = new List<DeviceDetails>();
+        var readTask = Task.Run(async () =>
+        {
+            await foreach (var device in call.ResponseStream.ReadAllAsync())
+            {
+                outputDevices.Add(
+                    GetDeviceDetails(device.DeviceId, device.Name, device.Description, (DeviceStatus) device.Status)
+                );
+            }
+        });
+
+        foreach (var device in devices)
+        {
+            await call.RequestStream.WriteAsync(new
+            DeviceManagement.DeviceDetails
+            {
+                DeviceId = device.Id,
+                Name = device.Name,
+                Description = device.Description,
+                Status = (DeviceManagement.DeviceStatus)device.Status
+            });
+        }
+
+        await call.RequestStream.CompleteAsync();
+        await readTask;
+        return outputDevices;
     }
 }

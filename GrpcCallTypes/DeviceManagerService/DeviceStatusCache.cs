@@ -5,6 +5,7 @@ public interface IDeviceStatusCache
 {
     void UpsertDeviceDetail(DeviceManagement.DeviceDetails status);
     List<DeviceManagement.DeviceDetails>  GetAllDeviceDetails();
+    DeviceManagement.DeviceDetails GetDevice(int deviceId);
 }
 
 internal class DeviceStatusCache : IDeviceStatusCache
@@ -22,5 +23,10 @@ internal class DeviceStatusCache : IDeviceStatusCache
     public void UpsertDeviceDetail(DeviceManagement.DeviceDetails status)
     {
         deviceStatuses.Add(status);
+    }
+
+    public DeviceManagement.DeviceDetails GetDevice(int deviceId)
+    {
+        return deviceStatuses.FirstOrDefault(d => d.DeviceId == deviceId);
     }
 }
