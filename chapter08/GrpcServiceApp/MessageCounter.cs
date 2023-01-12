@@ -1,5 +1,5 @@
 
-namespace GrpcServiceApp;
+namespace GrpcServiceApp.Services;
 public class MessageCounter
 {
     private uint messageCount = 0;
