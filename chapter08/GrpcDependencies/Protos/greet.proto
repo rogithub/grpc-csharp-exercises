@@ -3,6 +3,8 @@ import "google/protobuf/wrappers.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
 
 option csharp_namespace = "GrpcServiceApp";
 
@@ -24,6 +26,8 @@ message MessageCount {
 message HelloRequest {
   string name = 1;
   google.protobuf.Timestamp request_time_utc = 2;
+  google.protobuf.Any payload = 3;
+  google.protobuf.Value additional_payload = 4;
 }
 
 // The response message containing the greetings.
@@ -39,4 +43,18 @@ message HelloReply {
   google.protobuf.BytesValue message_bytes = 9;
   google.protobuf.Timestamp response_time_utc = 10;
   google.protobuf.Duration call_processing_duration = 11;
+}
+
+message IntegerPayload {
+  uint32 value = 1;
+}
+message DoublePayload {
+  double value = 1;
+}
+message BooleanPayload {
+  bool value = 1;
+}
+message CollectionPayload {
+  repeated string list = 1;
+  map<string, string> dictionary = 2;
 }

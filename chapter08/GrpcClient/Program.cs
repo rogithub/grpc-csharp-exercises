@@ -57,21 +57,76 @@ while (proceed)
 
     Console.WriteLine("Please enter the name.");
     var name = Console.ReadLine();
-    var reply = await client.SayHelloAsync(
-        new HelloRequest { Name = name, RequestTimeUtc = Timestamp.FromDateTime(DateTime.UtcNow) }, 
-        deadline: DateTime.UtcNow.AddMinutes(1));
 
-    Console.WriteLine("Message: " + reply.Message);
-    Console.WriteLine("Messages processed: " + reply.MessageProcessedCount);
-    Console.WriteLine("Message length in bytes: " + reply.MessageLengthInBytes);
-    Console.WriteLine("Message length in letters: " + reply.MessageLengthInLetters);
-    Console.WriteLine("Milliseconds to deadline: " + reply.MillisecondsToDeadline);
-    Console.WriteLine("Seconds to deadline: " + reply.SecondsToDeadline);
-    Console.WriteLine("Minutes to deadline: " + reply.MinutesToDeadline);
-    Console.WriteLine("Last name present: " + reply.LastNamePresent);
-    Console.WriteLine("Message bytes: " + reply.MessageBytes);
-    Console.WriteLine("Call processing duration: " + reply.CallProcessingDuration);
-    Console.WriteLine("Response time UTC: " + reply.ResponseTimeUtc);
+    Console.WriteLine("Please enter the payload type:");
+    Console.WriteLine("1 - integer");
+    Console.WriteLine("2 - double");
+    Console.WriteLine("3 - boolean");
+    Console.WriteLine("4 - collection");
+    var payloadType = Console.ReadLine();
+    Any payload = null;
+    Value additionalPayload = null;
+
+    switch (payloadType)
+    {
+        case "1":
+            payload = Any.Pack(new IntegerPayload() { Value = 1 });
+            additionalPayload = Value.ForNumber(1);
+        break;
+        case "2":
+            payload = Any.Pack(new DoublePayload() { Value = 1.5 });
+            additionalPayload = Value.ForNumber(1.5);
+        break;
+        case "3":
+            payload = Any.Pack(new BooleanPayload() { Value = true });
+            additionalPayload = Value.ForBool(true);
+        break;
+        case "4":
+            var collection = new List<string> { "item1", "item2", "item3" };
+            var dictionary = new Dictionary<string, string> { { "1", "item1" }, { "2", "item2" }, { "3", "item3" } };
+            var collectionPayload = new CollectionPayload();
+            collectionPayload.List.Add(collection);
+            collectionPayload.Dictionary.Add(dictionary);
+            payload = Any.Pack(collectionPayload);
+            additionalPayload = Value.ForStruct(new Struct
+            {
+                Fields =
+                {
+                    ["1"] = Value.ForString("item1"),
+                    ["2"] = Value.ForString("item2")
+                }
+            });
+            var reply = await client.SayHelloAsync(
+            new HelloRequest
+            {
+                Name = name,
+                RequestTimeUtc = Timestamp.FromDateTime(DateTime.UtcNow),
+                Payload = payload,
+                AdditionalPayload = additionalPayload
+            }, deadline: DateTime.UtcNow.AddMinutes(1));
+
+            Console.WriteLine("Message: " + reply.Message);
+            Console.WriteLine("Messages processed: " + reply.MessageProcessedCount);
+            Console.WriteLine("Message length in bytes: " + reply.MessageLengthInBytes);
+            Console.WriteLine("Message length in letters: " + reply.MessageLengthInLetters);
+            Console.WriteLine("Milliseconds to deadline: " + reply.MillisecondsToDeadline);
+            Console.WriteLine("Seconds to deadline: " + reply.SecondsToDeadline);
+            Console.WriteLine("Minutes to deadline: " + reply.MinutesToDeadline);
+            Console.WriteLine("Last name present: " + reply.LastNamePresent);
+            Console.WriteLine("Message bytes: " + reply.MessageBytes);
+            Console.WriteLine("Call processing duration: " + reply.CallProcessingDuration);
+            Console.WriteLine("Response time UTC: " + reply.ResponseTimeUtc);
+        break;
+        default:
+            Console.WriteLine("No payload value provided.");
+        break;
+    }
+
+    //var reply = await client.SayHelloAsync(
+    //    new HelloRequest { Name = name, RequestTimeUtc = Timestamp.FromDateTime(DateTime.UtcNow) }, 
+    //    deadline: DateTime.UtcNow.AddMinutes(1));
+
+    
 }
 Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
