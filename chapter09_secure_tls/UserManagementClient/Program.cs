@@ -4,13 +4,23 @@ using Grpc.Net.Client;
 using System;
 using System.Threading.Tasks;
 using Users;
+using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 
 // See https://aka.ms/new-console-template for more information
 
+var certificate = new X509Certificate2("UserManagementClient.pfx", "password");
+var handler = new HttpClientHandler();
+handler.ClientCertificates.Add(certificate);
 
 Console.WriteLine("Please enter the gRPC service URL.");
 var url = Console.ReadLine();
-using var channel = GrpcChannel.ForAddress(url);
+using var channel = GrpcChannel.ForAddress(url, 
+    new GrpcChannelOptions
+    {
+        HttpHandler = handler
+    });
+
 var client = new UserManager.UserManagerClient(channel);
 using var call = client.GetAllUsers(new Empty());
 while (await call.ResponseStream.MoveNext())

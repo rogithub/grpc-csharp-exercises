@@ -2,6 +2,16 @@ using System.Net;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using UserInfoManager;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Authentication.Certificate;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using UserInfoManager.Services;
 
 using UserInfoManager.Services;
 
@@ -22,6 +32,7 @@ builder.WebHost.ConfigureKestrel(options =>
     options.ConfigureHttpsDefaults(o =>
     {
         o.ServerCertificate = new X509Certificate2("UserInfoManager.pfx", "password");
+        o.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
     });
     options.ListenLocalhost(5002, o => o.Protocols = HttpProtocols.Http1);
     options.ListenLocalhost(5000, o => o.Protocols = HttpProtocols.Http2);
@@ -35,6 +46,41 @@ builder.Services.AddHttpsRedirection(options =>
     options.HttpsPort = 5001;
 });
 
+builder.Services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme)
+    .AddCertificate(options =>
+    {
+        options.AllowedCertificateTypes = CertificateTypes.All;
+        options.Events = new CertificateAuthenticationEvents
+        {
+            OnCertificateValidated = context =>
+            {
+                var claims = new[]
+                {
+                    new Claim(ClaimTypes.Name,
+                    context.ClientCertificate.Subject,
+                    ClaimValueTypes.String,
+                    context.Options.ClaimsIssuer)
+                };
+                context.Principal = new ClaimsPrincipal(new ClaimsIdentity(claims, context.Scheme.Name));
+                Console.WriteLine($"Client certificate thumbprint {context.ClientCertificate.Thumbprint}");
+                Console.WriteLine($"Client certificate subject: {context.ClientCertificate.Subject}");
+                context.Success();
+                return Task.CompletedTask;
+            },
+            OnAuthenticationFailed = context =>
+            {
+                context.NoResult();
+                context.Response.StatusCode = 403;
+                context.Response.ContentType = "text/plain";
+                context.Response.WriteAsync(context.Exception.ToString()).Wait();
+                return Task.CompletedTask;
+            },
+        };
+    })
+    .AddCertificateCache();
+
+
+app.UseAuthentication();
 
 var app = builder.Build();
 
